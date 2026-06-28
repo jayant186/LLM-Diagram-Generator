@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { toPng } from "html-to-image";
 import MermaidDiagram from "./components/MermaidDiagram";
+const API_URL = "https://llm-diagram-generator.onrender.com";
 
 function App() {
   const [text, setText] = useState("");
@@ -31,8 +32,7 @@ function App() {
 
     try {
 
-        const response = await fetch(
-            "http://127.0.0.1:5000/generate-pdf",
+        const response = await fetch(`${API_URL}/generate-pdf`,
             {
                 method: "POST",
                 body: formData
@@ -68,7 +68,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:5000/generate",
+        `${API_URL}/generate`,
         {
           method: "POST",
           headers: {
