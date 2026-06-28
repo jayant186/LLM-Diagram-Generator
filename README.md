@@ -1,20 +1,27 @@
 # LLM Diagram Generator
 
-LLM Diagram Generator is an AI-powered full-stack web application that converts unstructured text and PDF documents into interactive workflow diagrams. It uses Google's Gemini API to extract workflow information, generates Mermaid diagrams, and allows users to edit, preview, and export diagrams in real time.
+An AI-powered full-stack web application that transforms unstructured text and PDF documents into interactive workflow diagrams. The application leverages Google's Gemini API to understand textual workflows, automatically generates Mermaid diagrams, and provides an interactive interface for editing, previewing, and exporting diagrams.
+
+## 🌐 Live Demo
+
+**Frontend:** https://llm-diagram-generator.vercel.app
+
+**Backend API:** https://llm-diagram-generator.onrender.com
 
 ---
 
 ## Features
 
-* Convert text into interactive flowcharts
-* Convert PDF documents into diagrams
-* AI-powered workflow extraction using Gemini
+* Convert plain text into workflow diagrams
+* Generate diagrams directly from PDF documents
+* AI-powered workflow extraction using Google Gemini
 * Automatic Mermaid diagram generation
-* Editable Mermaid code with live preview
+* Live editable Mermaid code editor
+* Interactive diagram preview
 * Export diagrams as PNG
 * Export diagrams as SVG
 * Responsive React frontend
-* Flask REST API backend
+* RESTful Flask backend
 
 ---
 
@@ -33,54 +40,75 @@ LLM Diagram Generator is an AI-powered full-stack web application that converts 
 * Python
 * Google Gemini API
 * PyPDF
+* Flask-CORS
+
+### Deployment
+
+* Vercel (Frontend)
+* Render (Backend)
+* GitHub
 
 ---
 
 ## Project Architecture
 
 ```text
-                Text / PDF
+                 User Input
+              (Text or PDF)
                      │
                      ▼
-            Flask Backend
+           React + Vite Frontend
+                     │
+              REST API Request
                      │
                      ▼
-        Google Gemini API
+              Flask Backend API
+                     │
+          PDF Text Extraction
+             (for PDF input)
                      │
                      ▼
-      Workflow Extraction
+          Google Gemini API
+     Workflow & Relationship Extraction
                      │
                      ▼
-        Mermaid Generation
+       Mermaid Code Generation
                      │
                      ▼
-        React Frontend
+       Interactive Diagram Preview
                      │
-                     ▼
-        Interactive Diagram
+        ┌────────────┴────────────┐
+        ▼                         ▼
+    Export PNG               Export SVG
 ```
 
 ---
 
-## Project Workflow
+## Workflow
 
 ```text
 Text / PDF
       │
       ▼
-Extract Text (PDF)
+Extract Text (if PDF)
       │
       ▼
-Gemini Workflow Extraction
+Gemini Workflow Analysis
       │
       ▼
-Nodes & Relationships
+Node & Relationship Extraction
       │
       ▼
-Mermaid Code Generation
+Mermaid Diagram Generation
+      │
+      ▼
+Editable Mermaid Code
       │
       ▼
 Interactive Visualization
+      │
+      ▼
+PNG / SVG Export
 ```
 
 ---
@@ -91,19 +119,13 @@ Interactive Visualization
 
 ![Home](Screenshots/Home.png)
 
----
-
 ### Generated Diagram
 
 ![Diagram](Screenshots/Demo_Output.png)
 
----
-
 ### Editable Mermaid Code
 
 ![Editor](Screenshots/Editable_Mermaid_Code.png)
-
----
 
 ### Exported Diagram
 
@@ -111,16 +133,40 @@ Interactive Visualization
 
 ---
 
+## Project Structure
+
+```text
+LLM-Diagram-Generator
+│
+├── backend/
+│   ├── app.py
+│   ├── gemini_utils.py
+│   ├── pdf_utils.py
+│   └── requirements.txt
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   └── vite.config.js
+│
+├── Screenshots/
+├── README.md
+└── .gitignore
+```
+
+---
+
 ## Installation
 
-### Clone the repository
+### Clone the Repository
 
 ```bash
 git clone https://github.com/jayant186/LLM-Diagram-Generator.git
 cd LLM-Diagram-Generator
 ```
 
-### Backend
+### Backend Setup
 
 ```bash
 cd backend
@@ -128,13 +174,14 @@ cd backend
 python -m venv venv
 
 source venv/bin/activate        # macOS/Linux
+# venv\Scripts\activate         # Windows
 
 pip install -r requirements.txt
 
 python app.py
 ```
 
-Backend runs at:
+Backend runs on:
 
 ```
 http://localhost:5000
@@ -142,7 +189,7 @@ http://localhost:5000
 
 ---
 
-### Frontend
+### Frontend Setup
 
 ```bash
 cd frontend
@@ -152,7 +199,7 @@ npm install
 npm run dev
 ```
 
-Frontend runs at:
+Frontend runs on:
 
 ```
 http://localhost:5173
@@ -162,7 +209,7 @@ http://localhost:5173
 
 ## Environment Variables
 
-Create a `.env` file inside the `backend` folder.
+Create a `.env` file inside the `backend` directory.
 
 ```env
 GEMINI_API_KEY=YOUR_GEMINI_API_KEY
@@ -172,12 +219,13 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 
 ## Future Improvements
 
-* Additional diagram types
-* RAG-based workflow extraction
-* Multi-page PDF support
+* Support for additional Mermaid diagram types
+* RAG-based document understanding
+* Multi-page PDF processing
 * Drag-and-drop diagram editing
 * User authentication
 * Cloud storage integration
+* Diagram history and versioning
 
 ---
 
