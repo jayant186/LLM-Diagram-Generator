@@ -14,7 +14,7 @@ client = genai.Client(
 def generate_structure(text):
 
     prompt = f"""
-Analyze the following text and extract a workflow.
+Analyze the following text and convert it into a meaningful diagram structure.
 
 Return ONLY valid JSON.
 
@@ -24,7 +24,11 @@ Use EXACTLY this schema:
   "nodes": [
     {{
       "id": "A",
-      "label": "Student submits assignment"
+      "label": "Artificial Intelligence"
+    }},
+    {{
+      "id": "B",
+      "label": "Education"
     }}
   ],
   "edges": [
@@ -36,18 +40,51 @@ Use EXACTLY this schema:
 }}
 
 Rules:
-1. Every node must contain id and label.
-2. Label should be a natural workflow step.
-3. Preserve actors when relevant.
-4. Edges must be objects.
-5. Return only JSON.
-6. No markdown fences.
-7. Do not change the meaning or intent of the original text when shortening labels.
-8. Keep labels concise while preserving the complete workflow context.
-9. If two or more consecutive dependent actions form a single logical workflow step, combine and summarize them into one concise label without losing information or changing the meaning.
-10. Do not merge independent workflow steps.
-11. Remove unnecessary details, articles (a, an, the), and filler words while preserving the original meaning.
-12. If the same actor appears in more than two consecutive workflow steps, use an appropriate pronoun (e.g., he, she, they, it) in subsequent labels to avoid repetition, provided the reference remains clear. If the actor changes, use the new actor explicitly instead of a pronoun.
+
+1. Every node must contain "id" and "label".
+2. Every edge must contain "source" and "target".
+3. Extract MULTIPLE meaningful concepts, actions, outcomes, applications,
+   problems, causes, effects, or goals from the text.
+4. DO NOT summarize the entire text into a single node.
+5. Each major idea should normally be represented as a separate node.
+6. Identify relationships between ideas and represent them using edges.
+7. Preserve the meaning and intent of the original text.
+8. Labels should be concise but informative.
+9. Do not create unnecessary nodes for filler words or minor details.
+10. Do not merge independent concepts into one node.
+11. If the text contains a list of applications, problems, benefits,
+    causes, effects, or examples, create separate nodes for the
+    individual items when they are meaningful.
+12. If one concept causes, leads to, enables, affects, or relates to
+    another concept, create an edge between them.
+13. The diagram should represent the STRUCTURE and RELATIONSHIPS
+    of the complete text, not merely its main conclusion.
+14. Do not invent information that is not present in the text.
+15. Use unique IDs such as A, B, C, D, etc.
+16. Return only JSON.
+17. Do not use markdown fences.
+18. For a paragraph containing several distinct ideas, aim for
+    approximately 5-15 meaningful nodes rather than one summary node.
+19. Do not artificially split a single simple action into many nodes.
+
+Example:
+
+Text:
+"AI is used in education and healthcare. It analyzes large amounts
+of data and helps people make better decisions. However, it raises
+concerns about privacy and job displacement."
+
+Expected structure should contain separate nodes for concepts such as:
+
+Artificial Intelligence
+Education
+Healthcare
+Data Analysis
+Better Decisions
+Privacy
+Job Displacement
+
+and appropriate edges connecting them.
 
 Text:
 
